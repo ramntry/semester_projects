@@ -1,11 +1,11 @@
-ramntry suggestion:
+// global rules. For example, indentation policy:
+expandtab: 4
 
-class function call {
+class function call
 	// some rules for style of calling member functions
 	// any classes in any place of source code
-}
 
-class function declaration {
+class function declaration
 	// some rules for style of declarations of member
 	// functions in any classes. For example:
 	order: [
@@ -19,13 +19,16 @@ class function declaration {
 			, non_static
 		]
 	]
-}
 
-class variable private name {
+class variable private
 	// some rules for style of naming of private data
 	// members of any classes. For example by regular expression:
-	match: "m.+"
-}
+	name: "m[A-Z_].*"
 
+operator,
+	// rules for policy of wrapping lines when using operator,
+	// for example, lists of formal parameters, enums etc.
+	wrap_policy: {
+		tab: 2
+	}
 
-ashatta suggestions/observations?
