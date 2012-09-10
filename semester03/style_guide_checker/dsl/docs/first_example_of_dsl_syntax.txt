@@ -1,0 +1,31 @@
+ramntry suggestion:
+
+class function call {
+	// some rules for style of calling member functions
+	// any classes in any place of source code
+}
+
+class function declaration {
+	// some rules for style of declarations of member
+	// functions in any classes. For example:
+	order: [
+		by_access_modifier: [
+			public
+			, protected
+			, private
+		]
+		, by_static_modifier: [
+			static
+			, non_static
+		]
+	]
+}
+
+class variable private name {
+	// some rules for style of naming of private data
+	// members of any classes. For example by regular expression:
+	match: "m.+"
+}
+
+
+ashatta suggestions/observations?
