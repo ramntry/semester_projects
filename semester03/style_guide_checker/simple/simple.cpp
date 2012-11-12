@@ -63,39 +63,32 @@ clang::TargetInfo *initializeCompilerInstance(clang::CompilerInstance &ci, clang
     return targetInfo;
 }
 
-// task switcher
-class Task
-{
-public:
-    static sgc::BaseConsumer *createConsumer();
-};
-
-sgc::BaseConsumer *Task::createConsumer()
-{
-    return new sgc::private_data_members_matching::Consumer;
-}
-
-int main(int argc, char **argv)
+void run(char *filename, sgc::BaseConsumer *consumer)
 {
     using namespace clang;
     using namespace sgc;
 
     typedef llvm::IntrusiveRefCntPtr<TargetInfo> TargetInfoPtr;
 
+    CompilerInstance ci;
+    TargetInfoPtr tiOwner = initializeCompilerInstance(ci, consumer);
+    consumer->setSourceManager(ci.getSourceManager());
+
+    ci.getSourceManager().createMainFileID(ci.getFileManager().getFile(filename));
+
+    ci.getDiagnosticClient().BeginSourceFile(ci.getLangOpts(), &ci.getPreprocessor());
+    ParseAST(ci.getPreprocessor(), &ci.getASTConsumer(), ci.getASTContext());
+    ci.getDiagnosticClient().EndSourceFile();
+}
+
+int main(int argc, char **argv)
+{
     if (argc < 2) {
         llvm::errs() << "Usage: tut4 <source-file-name>\n";
         return EXIT_FAILURE;
     }
 
-    CompilerInstance ci;
-    BaseConsumer *consumer = Task::createConsumer();
-    TargetInfoPtr tiOwner = initializeCompilerInstance(ci, consumer);
-    consumer->setSourceManager(ci.getSourceManager());
-
-    ci.getSourceManager().createMainFileID(ci.getFileManager().getFile(argv[1]));
-
-    ci.getDiagnosticClient().BeginSourceFile(ci.getLangOpts(), &ci.getPreprocessor());
-    ParseAST(ci.getPreprocessor(), &ci.getASTConsumer(), ci.getASTContext());
-    ci.getDiagnosticClient().EndSourceFile();
+    run(argv[1], new sgc::private_data_members_matching::Consumer);
+    run(argv[1], new sgc::top_level_decl_order_checking::Consumer);
 }
 
