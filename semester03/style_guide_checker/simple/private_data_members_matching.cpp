@@ -10,14 +10,16 @@ bool Visitor::VisitFieldDecl(clang::FieldDecl *decl)
             && decl->getAccess() == clang::AS_private
             && !match(decl->getNameAsString()))
     {
+        llvm::errs() << "Name of private data member doesn't match: "
+                << prettyLocation(decl) << "\n";
     }
 
     return true;
 }
 
-bool Visitor::match(std::string const &) const
+bool Visitor::match(std::string const &name) const
 {
-    return false;
+    return llvm::Regex("m[A-Za-z][A-Za-z0-9]*").match(name);
 }
 
 std::string Visitor::prettyLocation(clang::FieldDecl *decl) const
@@ -43,7 +45,9 @@ bool Consumer::HandleTopLevelDecl(clang::DeclGroupRef declGroup)
 {
     using namespace clang;
 
-    for (DeclGroupRef::iterator it = declGroup.begin(), end = declGroup.end(); it != end; ++it)
+    DeclGroupRef::iterator it = declGroup.begin();
+    DeclGroupRef::iterator end = declGroup.end();
+    for (; it != end; ++it)
     {
         visitor_.TraverseDecl(*it);
     }
