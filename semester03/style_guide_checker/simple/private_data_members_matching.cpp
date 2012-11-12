@@ -1,4 +1,5 @@
 #include <llvm/Support/Regex.h>
+#include <clang/Basic/SourceManager.h>
 #include "private_data_members_matching.h"
 
 using namespace sgc::private_data_members_matching;
@@ -10,6 +11,8 @@ bool Visitor::VisitFieldDecl(clang::FieldDecl *decl)
             && decl->getAccess() == clang::AS_private
             && !match(decl->getNameAsString()))
     {
+        printFilenameIfItWasChanged(decl);
+
         llvm::errs() << "Name of private data member doesn't match: "
                 << prettyLocation(decl) << "\n";
     }
@@ -33,6 +36,16 @@ std::string Visitor::prettyLocation(clang::FieldDecl *decl) const
             + " at "
             + decl->getLocation().printToString(*sourceManager());
 }
+
+void Visitor::printFilenameIfItWasChanged(clang::FieldDecl *decl)
+{
+    std::string currentFileName = sourceManager()->getFilename(decl->getLocation());
+    if (currentFileName != lastFileName_) {
+        llvm::errs() << "\n=== In file \"" << currentFileName << "\" ===\n";
+        lastFileName_ = currentFileName;
+    }
+}
+
 
 // Consumer
 void Consumer::setSourceManager(clang::SourceManager &sm)

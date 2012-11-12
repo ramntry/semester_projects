@@ -2,14 +2,6 @@
 #include "BaseConsumer.h"
 #include "BaseVisitor.h"
 
-/*
-namespace clang {
-class Decl;
-class DeclGroupRef;
-class FieldDecl;
-}
-*/
-
 namespace sgc {
 namespace private_data_members_matching {
 
@@ -21,6 +13,9 @@ public:
 private:
     bool match(std::string const &name) const;
     std::string prettyLocation(clang::FieldDecl *decl) const;
+    void printFilenameIfItWasChanged(clang::FieldDecl *decl);
+
+    std::string lastFileName_;
 };
 
 class Consumer : public BaseConsumer
