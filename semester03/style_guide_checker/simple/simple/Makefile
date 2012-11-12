@@ -41,7 +41,7 @@ CLANG_LIBS = \
 
 all: simple
 
-simple: simple.cpp top_level_decl_order_checking.cpp
+simple: simple.cpp top_level_decl_order_checking.cpp private_data_members_matching.cpp
 	$(CXX) $^ $(CXXFLAGS) -o $@ \
 	$(CUSTOM_INCLUDEPATH) $(CLANG_INCLUDEPATH) \
 	$(CUSTOM_LIBS) $(CLANG_LIBS) \

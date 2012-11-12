@@ -10,7 +10,9 @@
 #include <clang/AST/ASTContext.h>
 #include <clang/AST/RecursiveASTVisitor.h>
 #include <clang/Parse/ParseAST.h>
+
 #include "top_level_decl_order_checking.h"
+#include "private_data_members_matching.h"
 
 void initializePreprocessor(clang::CompilerInstance &ci)
 {
@@ -61,21 +63,23 @@ clang::TargetInfo *initializeCompilerInstance(clang::CompilerInstance &ci, clang
     return targetInfo;
 }
 
+// task switcher
 class Task
 {
 public:
-    static clang::ASTConsumer *createConsumer();
+    static sgc::BaseConsumer *createConsumer();
 };
 
-clang::ASTConsumer *Task::createConsumer()
+sgc::BaseConsumer *Task::createConsumer()
 {
-    return new top_level_decl_order_checking::Consumer;
+    return new sgc::private_data_members_matching::Consumer;
 }
 
 int main(int argc, char **argv)
 {
     using namespace clang;
-    using top_level_decl_order_checking::Consumer;
+    using namespace sgc;
+
     typedef llvm::IntrusiveRefCntPtr<TargetInfo> TargetInfoPtr;
 
     if (argc < 2) {
@@ -84,7 +88,7 @@ int main(int argc, char **argv)
     }
 
     CompilerInstance ci;
-    Consumer *consumer = new Consumer;
+    BaseConsumer *consumer = Task::createConsumer();
     TargetInfoPtr tiOwner = initializeCompilerInstance(ci, consumer);
     consumer->setSourceManager(ci.getSourceManager());
 
