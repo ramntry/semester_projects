@@ -21,6 +21,7 @@ private:
 class Consumer : public BaseConsumer
 {
 public:
+    Consumer(clang::SourceManager *sm = nullptr);
     virtual void setSourceManager(clang::SourceManager &sm);
 
     bool HandleTopLevelDecl(clang::DeclGroupRef declGroup);

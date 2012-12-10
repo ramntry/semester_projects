@@ -48,6 +48,11 @@ void Visitor::printFilenameIfItWasChanged(clang::FieldDecl *decl)
 
 
 // Consumer
+Consumer::Consumer(clang::SourceManager *sm)
+    : BaseConsumer(sm)
+{
+}
+
 void Consumer::setSourceManager(clang::SourceManager &sm)
 {
     visitor_.setSourceManager(sm);

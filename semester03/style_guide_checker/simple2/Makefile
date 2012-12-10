@@ -41,7 +41,7 @@ CLANG_LIBS = \
 
 all: simple2
 
-simple2: simple2.cpp
+simple2: simple2.cpp ../simple/private_data_members_matching.cpp
 	$(CXX) $^ $(CXXFLAGS) -o $@ \
 	$(CUSTOM_INCLUDEPATH) $(CLANG_INCLUDEPATH) \
 	$(CUSTOM_LIBS) $(CLANG_LIBS) \

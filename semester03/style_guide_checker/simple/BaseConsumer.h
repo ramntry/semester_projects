@@ -11,7 +11,7 @@ namespace sgc {  // Style Guide Checker
 class BaseConsumer : public clang::ASTConsumer
 {
 public:
-    BaseConsumer() : sourceManager_(nullptr) {}
+    BaseConsumer(clang::SourceManager *sm = nullptr) : sourceManager_(sm) {}
     virtual ~BaseConsumer() {}
 
     virtual void setSourceManager(clang::SourceManager &sm) { sourceManager_ = &sm; }
