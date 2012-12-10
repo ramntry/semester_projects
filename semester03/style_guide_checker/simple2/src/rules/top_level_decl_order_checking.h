@@ -1,6 +1,6 @@
 #pragma once
-#include "BaseConsumer.h"
-#include "BaseVisitor.h"
+#include "../base/BaseConsumer.h"
+#include "../base/BaseVisitor.h"
 
 namespace sgc {
 namespace top_level_decl_order_checking {

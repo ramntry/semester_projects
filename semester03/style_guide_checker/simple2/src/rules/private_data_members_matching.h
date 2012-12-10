@@ -1,6 +1,6 @@
 #pragma once
-#include "BaseConsumer.h"
-#include "BaseVisitor.h"
+#include "../base/BaseConsumer.h"
+#include "../base/BaseVisitor.h"
 
 namespace sgc {
 namespace private_data_members_matching {

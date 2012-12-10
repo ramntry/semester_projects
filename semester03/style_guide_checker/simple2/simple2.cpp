@@ -14,8 +14,8 @@
 #include <clang/Frontend/ASTUnit.h>
 #include <clang/Frontend/FrontendAction.h>
 
-#include "private_data_members_matching.h"
-#include "top_level_decl_order_checking.h"
+#include "src/rules/private_data_members_matching.h"
+#include "src/rules/top_level_decl_order_checking.h"
 
 namespace sgc {
 
