@@ -84,7 +84,7 @@ void run(char *filename, sgc::BaseConsumer *consumer)
 int main(int argc, char **argv)
 {
     if (argc < 2) {
-        llvm::errs() << "Usage: tut4 <source-file-name>\n";
+        llvm::errs() << "Usage: simple <source-file-name>\n";
         return EXIT_FAILURE;
     }
 

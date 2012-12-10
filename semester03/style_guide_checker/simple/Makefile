@@ -8,7 +8,7 @@ LLVM_CONFIG = `$(LLVM_BIN_PATH)/llvm-config $(LLVM_CONFIG_OPTIONS)` -ldl
 
 CXX                 = clang++
 DEFINES             =
-STANDARD            = -std=c++11
+STANDARD            = -std=c++0x
 CXXFLAGS            = -fno-rtti -O2 -g3 $(STANDARD) $(DEFINES)
 
 CUSTOM_INCLUDEPATH = \
