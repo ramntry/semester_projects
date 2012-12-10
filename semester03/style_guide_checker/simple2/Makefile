@@ -45,8 +45,7 @@ CLANG_LIBS = \
 	-lclangLex \
 	-lclangBasic \
 
-ALL_CXX_OPTIONS = $(CXXFLAGS) $(CUSTOM_INCLUDEPATH) $(CLANG_INCLUDEPATH) $(LLVM_CONFIG)
-ALL_LINK_OPTIONS = $(CUSTOM_LIBS) $(CLANG_LIBS) $(LLVM_CONFIG)
+ALL_OPTIONS = $(CXXFLAGS) $(CUSTOM_INCLUDEPATH) $(CLANG_INCLUDEPATH) $(CUSTOM_LIBS) $(CLANG_LIBS) $(LLVM_CONFIG)
 
 BASE_DIR = ./src/base
 RULES_DIR = ./src/rules
@@ -54,20 +53,20 @@ OBJ_DIR = ./obj
 
 all: simple2
 
-$(OBJ_DIR)/simple2.o: simple2.cpp
-	$(CXX) $^ -o $@ -c $(ALL_CXX_OPTIONS)
+$(OBJ_DIR)/simple2.o: simple2.cpp $(BASE_DIR)/ASTUnitWrapper.h $(BASE_DIR)/BaseAction.h $(RULES_DIR)/private_data_members_matching.h $(RULES_DIR)/top_level_decl_order_checking.h
+	$(CXX) simple2.cpp -o $@ -c $(ALL_OPTIONS)
 
 $(OBJ_DIR)/BaseConsumer.o: $(BASE_DIR)/BaseConsumer.cpp $(BASE_DIR)/BaseConsumer.h
-	$(CXX) $(BASE_DIR)/BaseConsumer.cpp -o $@ -c $(ALL_CXX_OPTIONS)
+	$(CXX) $(BASE_DIR)/BaseConsumer.cpp -o $@ -c $(ALL_OPTIONS)
 
-$(OBJ_DIR)/private_data_members_matching.o: $(RULES_DIR)/private_data_members_matching.cpp $(RULES_DIR)/private_data_members_matching.h
-	$(CXX) $(RULES_DIR)/private_data_members_matching.cpp -o $@ -c $(ALL_CXX_OPTIONS)
+$(OBJ_DIR)/private_data_members_matching.o: $(RULES_DIR)/private_data_members_matching.cpp $(RULES_DIR)/private_data_members_matching.h $(BASE_DIR)/BaseConsumer.h $(BASE_DIR)/BaseVisitor.h
+	$(CXX) $(RULES_DIR)/private_data_members_matching.cpp -o $@ -c $(ALL_OPTIONS)
 
-$(OBJ_DIR)/top_level_decl_order_checking.o: $(RULES_DIR)/top_level_decl_order_checking.cpp $(RULES_DIR)/top_level_decl_order_checking.h
-	$(CXX) $(RULES_DIR)/top_level_decl_order_checking.cpp -o $@ -c $(ALL_CXX_OPTIONS)
+$(OBJ_DIR)/top_level_decl_order_checking.o: $(RULES_DIR)/top_level_decl_order_checking.cpp $(RULES_DIR)/top_level_decl_order_checking.h $(BASE_DIR)/BaseConsumer.h $(BASE_DIR)/BaseVisitor.h
+	$(CXX) $(RULES_DIR)/top_level_decl_order_checking.cpp -o $@ -c $(ALL_OPTIONS)
 
-simple2: $(OBJ_DIR)/simple2.o $(OBJ_DIR)/BaseConsumer.o $(OBJ_DIR)/private_data_members_matching.o $(OBJ_DIR)/top_level_decl_order_checking.o
-	$(CXX) $^ -o $@ $(ALL_LINK_OPTIONS)
+simple2: $(OBJ_DIR)/simple2.o $(OBJ_DIR)/private_data_members_matching.o $(OBJ_DIR)/top_level_decl_order_checking.o $(OBJ_DIR)/BaseConsumer.o
+	$(CXX) $^ -o $@ $(ALL_OPTIONS)
 
 run:
 	./simple2 example.cpp $(SYSTEM_INCLUDE_PATH)
