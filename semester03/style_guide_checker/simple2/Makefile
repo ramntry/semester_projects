@@ -62,13 +62,13 @@ $(OBJ_DIR)/simple2.o: simple2.cpp $(BASE_DIR)/ASTUnitWrapper.h $(BASE_DIR)/BaseA
 $(OBJ_DIR)/BaseConsumer.o: $(BASE_DIR)/BaseConsumer.cpp $(BASE_DIR)/BaseConsumer.h
 	$(CXX) $(BASE_DIR)/BaseConsumer.cpp -o $@ -c $(ALL_OPTIONS)
 
-$(OBJ_DIR)/private_data_members_matching.o: $(RULES_DIR)/private_data_members_matching.cpp $(RULES_DIR)/private_data_members_matching.h $(BASE_DIR)/BaseConsumer.h $(BASE_DIR)/BaseVisitor.h
+$(OBJ_DIR)/private_data_members_matching.o: $(RULES_DIR)/private_data_members_matching.cpp $(RULES_DIR)/private_data_members_matching.h $(BASE_DIR)/BaseConsumer.h $(BASE_DIR)/BaseVisitor.h $(BASE_DIR)/BaseConsumerWithVisitor.h
 	$(CXX) $(RULES_DIR)/private_data_members_matching.cpp -o $@ -c $(ALL_OPTIONS)
 
 $(OBJ_DIR)/top_level_decl_order_checking.o: $(RULES_DIR)/top_level_decl_order_checking.cpp $(RULES_DIR)/top_level_decl_order_checking.h $(BASE_DIR)/BaseConsumer.h $(BASE_DIR)/BaseVisitor.h
 	$(CXX) $(RULES_DIR)/top_level_decl_order_checking.cpp -o $@ -c $(ALL_OPTIONS)
 
-$(OBJ_DIR)/name_matching.o: $(RULES_DIR)/name_matching.cpp $(RULES_DIR)/name_matching.h $(BASE_DIR)/BaseConsumer.h $(BASE_DIR)/BaseVisitor.h $(SUPP_DIR)/namestyles.h
+$(OBJ_DIR)/name_matching.o: $(RULES_DIR)/name_matching.cpp $(RULES_DIR)/name_matching.h $(BASE_DIR)/BaseConsumer.h $(BASE_DIR)/BaseVisitor.h $(SUPP_DIR)/namestyles.h $(BASE_DIR)/BaseConsumerWithVisitor.h
 	$(CXX) $(RULES_DIR)/name_matching.cpp -o $@ -c $(ALL_OPTIONS)
 
 $(OBJ_DIR)/namestyles.o: $(SUPP_DIR)/namestyles.cpp $(SUPP_DIR)/namestyles.h

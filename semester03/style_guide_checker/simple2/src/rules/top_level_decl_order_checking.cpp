@@ -25,6 +25,8 @@ bool Consumer::HandleTopLevelDecl(clang::DeclGroupRef declRef)
     }
 
     if (freeFunctionHasBeenDeclared_ && isa<CXXRecordDecl>(decl)) {
+        printFilenameIfItWasChanged(decl);
+
         llvm::errs() << prettyLocation(decl)
             << "This record declared after function or method: "
             << cast<CXXRecordDecl>(decl)->getNameAsString() << "\n";

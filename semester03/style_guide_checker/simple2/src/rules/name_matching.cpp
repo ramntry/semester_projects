@@ -43,23 +43,3 @@ bool Visitor::matchTypename(std::string const &name) const
     return sgc::namestyles::matchCapitalizeCamel(name);
 }
 
-// Consumer
-Consumer::Consumer(clang::CompilerInstance *ci, llvm::StringRef filename)
-    : BaseConsumer(ci, filename)
-    , visitor_(this)
-{
-}
-
-bool Consumer::HandleTopLevelDecl(clang::DeclGroupRef declGroup)
-{
-    using namespace clang;
-
-    DeclGroupRef::iterator it = declGroup.begin();
-    DeclGroupRef::iterator end = declGroup.end();
-    for (; it != end; ++it)
-    {
-        visitor_.TraverseDecl(*it);
-    }
-    return true;
-}
-

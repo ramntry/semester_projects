@@ -1,5 +1,6 @@
 #include <llvm/Support/Regex.h>
 #include <clang/Basic/SourceManager.h>
+#include "../support/namestyles.h"
 #include "private_data_members_matching.h"
 
 using namespace sgc::private_data_members_matching;
@@ -28,7 +29,8 @@ bool Visitor::VisitFieldDecl(clang::FieldDecl *decl)
 
 bool Visitor::match(std::string const &name) const
 {
-    return llvm::Regex("m[A-Za-z][A-Za-z0-9]*").match(name);
+    return name.empty() || (
+        (name[0] == 'm') && sgc::namestyles::matchCapitalizeCamel(name.substr(1)));
 }
 
 std::string Visitor::classAndFieldNames(clang::FieldDecl *decl) const
@@ -37,25 +39,5 @@ std::string Visitor::classAndFieldNames(clang::FieldDecl *decl) const
 
     CXXRecordDecl *classDecl = cast<CXXRecordDecl>(decl->getDeclContext());
     return classDecl->getNameAsString() + "::" + decl->getNameAsString();
-}
-
-// Consumer
-Consumer::Consumer(clang::CompilerInstance *ci, llvm::StringRef filename)
-    : BaseConsumer(ci, filename)
-    , visitor_(this)
-{
-}
-
-bool Consumer::HandleTopLevelDecl(clang::DeclGroupRef declGroup)
-{
-    using namespace clang;
-
-    DeclGroupRef::iterator it = declGroup.begin();
-    DeclGroupRef::iterator end = declGroup.end();
-    for (; it != end; ++it)
-    {
-        visitor_.TraverseDecl(*it);
-    }
-    return true;
 }
 

@@ -1,6 +1,5 @@
 #pragma once
-#include "../base/BaseConsumer.h"
-#include "../base/BaseVisitor.h"
+#include "../base/BaseConsumerWithVisitor.h"
 
 namespace sgc {
 namespace name_matching {
@@ -18,17 +17,6 @@ private:
     bool matchTypename(std::string const &name) const;
 };
 
-class Consumer : public BaseConsumer
-{
-public:
-    Consumer(clang::CompilerInstance *ci = NULL
-            , llvm::StringRef filename = llvm::StringRef());
-    virtual ~Consumer() {}
-
-    bool HandleTopLevelDecl(clang::DeclGroupRef declGroup);
-
-private:
-    Visitor visitor_;
-};
+typedef BaseConsumerWithVisitor<Visitor> Consumer;
 
 }}  // namespace sgc::name_matching
