@@ -15,16 +15,14 @@ public:
 
 private:
     bool match(std::string const &name) const;
-    std::string prettyLocation(clang::FieldDecl *decl) const;
-    void printFilenameIfItWasChanged(clang::FieldDecl *decl);
-
-    std::string lastFileName_;
+    std::string classAndFieldNames(clang::FieldDecl *decl) const;
 };
 
 class Consumer : public BaseConsumer
 {
 public:
-    Consumer(clang::CompilerInstance *ci = nullptr);
+    Consumer(clang::CompilerInstance *ci = nullptr
+            , llvm::StringRef filename = llvm::StringRef());
     virtual ~Consumer() {}
 
     bool HandleTopLevelDecl(clang::DeclGroupRef declGroup);

@@ -15,8 +15,12 @@
 #include <clang/Frontend/FrontendAction.h>
 
 #include "private_data_members_matching.h"
+#include "top_level_decl_order_checking.h"
 
-class MyAction : public clang::ASTFrontendAction
+namespace sgc {
+
+template <typename Consumer>
+class BaseAction : public clang::ASTFrontendAction
 {
 protected:
     virtual bool BeginInvocation(clang::CompilerInstance &ci)
@@ -25,33 +29,51 @@ protected:
         return true;
     }
 
-    virtual clang::ASTConsumer *CreateASTConsumer(clang::CompilerInstance &ci, llvm::StringRef)
+    virtual clang::ASTConsumer *CreateASTConsumer(clang::CompilerInstance &ci, llvm::StringRef filename)
     {
-        return new sgc::private_data_members_matching::Consumer(&ci);
+        return new Consumer(&ci, filename);
     }
 
 };
 
-void tryWorkWithASTUnit(int argc, char const **argv)
+}  // namespace sgc
+
+namespace sgc {
+
+class ASTUnitWrapper
+{
+public:
+    ASTUnitWrapper(int argc, char const **argv);
+    ~ASTUnitWrapper() { delete unit_; }
+
+    template <typename Consumer>
+    void run();
+
+private:
+    llvm::IntrusiveRefCntPtr<clang::DiagnosticsEngine> diags_;
+    clang::CompilerInvocation *invoc_;
+    clang::ASTUnit *unit_;
+};
+
+ASTUnitWrapper::ASTUnitWrapper(int argc, char const **argv)
+    : diags_(clang::CompilerInstance::createDiagnostics(new clang::DiagnosticOptions, argc, argv))
+    , invoc_(new clang::CompilerInvocation)
 {
     using namespace clang;
     using namespace llvm;
-    using namespace sgc;
 
-    IntrusiveRefCntPtr<DiagnosticsEngine> diags(
-            CompilerInstance::createDiagnostics(new DiagnosticOptions, argc, argv));
-
-    CompilerInvocation *invoc = new CompilerInvocation;
-    CompilerInvocation::CreateFromArgs(*invoc, argv + 1, argv + argc, *diags);
-
-    ASTUnit *unit = ASTUnit::LoadFromCompilerInvocation(invoc, diags);
-
-    MyAction action;
-    ASTUnit::LoadFromCompilerInvocationAction(invoc, diags, &action, unit);
-    ASTUnit::LoadFromCompilerInvocationAction(invoc, diags, &action, unit);
-
-    delete unit;
+    CompilerInvocation::CreateFromArgs(*invoc_, argv + 1, argv + argc, *diags_);
+    unit_ = ASTUnit::LoadFromCompilerInvocation(invoc_, diags_);
 }
+
+template <typename Consumer>
+void ASTUnitWrapper::run()
+{
+    BaseAction<Consumer> action;
+    clang::ASTUnit::LoadFromCompilerInvocationAction(invoc_, diags_, &action, unit_);
+}
+
+}  // namespace sgc
 
 int main(int argc, char const **argv)
 {
@@ -60,6 +82,10 @@ int main(int argc, char const **argv)
         return EXIT_FAILURE;
     }
 
-    tryWorkWithASTUnit(argc, argv);
+    using namespace sgc;
+
+    ASTUnitWrapper unit(argc, argv);
+    unit.run<private_data_members_matching::Consumer>();
+    unit.run<top_level_decl_order_checking::Consumer>();
 }
 

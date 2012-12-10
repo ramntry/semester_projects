@@ -18,8 +18,9 @@ bool Visitor::VisitFieldDecl(clang::FieldDecl *decl)
     {
         printFilenameIfItWasChanged(decl);
 
-        llvm::errs() << "Name of private data member doesn't match: "
-                << prettyLocation(decl) << "\n";
+        llvm::errs() << prettyLocation(decl)
+            << "Name of private data member doesn't match: "
+            << classAndFieldNames(decl) << "\n";
     }
 
     return true;
@@ -30,31 +31,17 @@ bool Visitor::match(std::string const &name) const
     return llvm::Regex("m[A-Za-z][A-Za-z0-9]*").match(name);
 }
 
-std::string Visitor::prettyLocation(clang::FieldDecl *decl) const
+std::string Visitor::classAndFieldNames(clang::FieldDecl *decl) const
 {
     using namespace clang;
 
     CXXRecordDecl *classDecl = cast<CXXRecordDecl>(decl->getDeclContext());
-    return classDecl->getNameAsString()
-            + "::"
-            + decl->getNameAsString()
-            + " at "
-            + decl->getLocation().printToString(sourceManager());
+    return classDecl->getNameAsString() + "::" + decl->getNameAsString();
 }
-
-void Visitor::printFilenameIfItWasChanged(clang::FieldDecl *decl)
-{
-    std::string currentFileName = sourceManager().getFilename(decl->getLocation());
-    if (currentFileName != lastFileName_) {
-        llvm::errs() << "\n=== In file \"" << currentFileName << "\" ===\n";
-        lastFileName_ = currentFileName;
-    }
-}
-
 
 // Consumer
-Consumer::Consumer(clang::CompilerInstance *ci)
-    : BaseConsumer(ci)
+Consumer::Consumer(clang::CompilerInstance *ci, llvm::StringRef filename)
+    : BaseConsumer(ci, filename)
     , visitor_(this)
 {
 }
