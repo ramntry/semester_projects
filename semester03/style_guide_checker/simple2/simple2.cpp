@@ -19,10 +19,17 @@
 class MyAction : public clang::ASTFrontendAction
 {
 protected:
+    virtual bool BeginInvocation(clang::CompilerInstance &ci)
+    {
+        ci.getSourceManager().clearIDTables();
+        return true;
+    }
+
     virtual clang::ASTConsumer *CreateASTConsumer(clang::CompilerInstance &ci, llvm::StringRef)
     {
         return new sgc::private_data_members_matching::Consumer(&ci);
     }
+
 };
 
 void tryWorkWithASTUnit(int argc, char const **argv)
@@ -37,10 +44,12 @@ void tryWorkWithASTUnit(int argc, char const **argv)
     CompilerInvocation *invoc = new CompilerInvocation;
     CompilerInvocation::CreateFromArgs(*invoc, argv + 1, argv + argc, *diags);
 
+    ASTUnit *unit = ASTUnit::LoadFromCompilerInvocation(invoc, diags);
+
     MyAction action;
-    ASTUnit *unit = ASTUnit::LoadFromCompilerInvocationAction(invoc, diags, &action);
-    unit->getSourceManager().clearIDTables();
-    unit = ASTUnit::LoadFromCompilerInvocationAction(invoc, diags, &action, unit);
+    ASTUnit::LoadFromCompilerInvocationAction(invoc, diags, &action, unit);
+    ASTUnit::LoadFromCompilerInvocationAction(invoc, diags, &action, unit);
+
     delete unit;
 }
 
