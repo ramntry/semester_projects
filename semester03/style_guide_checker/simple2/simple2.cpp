@@ -11,6 +11,8 @@
 #include <clang/AST/RecursiveASTVisitor.h>
 #include <clang/Parse/ParseAST.h>
 
+#include <clang/Frontend/ASTUnit.h>
+
 void initializePreprocessor(clang::CompilerInstance &ci)
 {
     using namespace clang;
@@ -77,11 +79,30 @@ void run(char *filename, clang::ASTConsumer *consumer)
     ci.getDiagnosticClient().EndSourceFile();
 }
 
-int main(int argc, char **argv)
+void tryWorkWithASTUnit(int argc, char const **argv)
+{
+    using namespace clang;
+    using namespace llvm;
+
+
+    IntrusiveRefCntPtr<DiagnosticsEngine> diags(
+            CompilerInstance::createDiagnostics(new DiagnosticOptions, argc, argv));
+    ASTUnit *unit = ASTUnit::LoadFromCommandLine(
+            argv + 1
+            , argv + argc
+            , diags
+            , "./");
+    unit->getSema().Consumer = ASTConsumer();
+    unit->Reparse();
+}
+
+int main(int argc, char const **argv)
 {
     if (argc < 2) {
-        llvm::errs() << "Usage: simple2 <source-file-name>\n";
+        llvm::errs() << "Usage: simple2 <compiler-like-command-line-options>\n";
         return EXIT_FAILURE;
     }
+
+    tryWorkWithASTUnit(argc, argv);
 }
 
