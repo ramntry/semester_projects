@@ -13,6 +13,10 @@ private:
    class D {
       int aaaaaa() { return 0; }
    };
+
+   char const *const MethodName() { return "hi"; }
+   bool isCorrectBoolFunctionName() { return true; }
+   bool uncorrectBoolFunctionName() { return true; }
 };
 
 class B : public A
@@ -29,19 +33,19 @@ private:
    int c;
 };
 
-class Printer
+class PrinterAsExampleOfClassWithLongCapitalizedCamelStyleName
 {
 public:
     void print(const char *message);
 };
 
-void Printer::print(const char *)
+void PrinterAsExampleOfClassWithLongCapitalizedCamelStyleName::print(const char *)
 {
 }
 
 void hello()
 {
-    Printer printer;
+    PrinterAsExampleOfClassWithLongCapitalizedCamelStyleName printer;
     printer.print("hello");
 }
 

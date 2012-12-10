@@ -1,4 +1,3 @@
-#include <llvm/Support/Regex.h>
 #include <clang/Basic/SourceManager.h>
 #include "../support/namestyles.h"
 #include "private_data_members_matching.h"

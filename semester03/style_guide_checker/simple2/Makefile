@@ -71,10 +71,13 @@ $(OBJ_DIR)/top_level_decl_order_checking.o: $(RULES_DIR)/top_level_decl_order_ch
 $(OBJ_DIR)/name_matching.o: $(RULES_DIR)/name_matching.cpp $(RULES_DIR)/name_matching.h $(BASE_DIR)/BaseConsumer.h $(BASE_DIR)/BaseVisitor.h $(SUPP_DIR)/namestyles.h $(BASE_DIR)/BaseConsumerWithVisitor.h
 	$(CXX) $(RULES_DIR)/name_matching.cpp -o $@ -c $(ALL_OPTIONS)
 
+$(OBJ_DIR)/bool_function_name_matching.o: $(RULES_DIR)/bool_function_name_matching.cpp $(RULES_DIR)/bool_function_name_matching.h $(BASE_DIR)/BaseConsumer.h $(BASE_DIR)/BaseVisitor.h $(BASE_DIR)/BaseConsumerWithVisitor.h
+	$(CXX) $(RULES_DIR)/bool_function_name_matching.cpp -o $@ -c $(ALL_OPTIONS)
+
 $(OBJ_DIR)/namestyles.o: $(SUPP_DIR)/namestyles.cpp $(SUPP_DIR)/namestyles.h
 	$(CXX) $(SUPP_DIR)/namestyles.cpp -o $@ -c $(ALL_OPTIONS)
 
-simple2: $(OBJ_DIR)/simple2.o $(OBJ_DIR)/private_data_members_matching.o $(OBJ_DIR)/top_level_decl_order_checking.o $(OBJ_DIR)/BaseConsumer.o $(OBJ_DIR)/name_matching.o $(OBJ_DIR)/namestyles.o
+simple2: $(OBJ_DIR)/simple2.o $(OBJ_DIR)/private_data_members_matching.o $(OBJ_DIR)/top_level_decl_order_checking.o $(OBJ_DIR)/BaseConsumer.o $(OBJ_DIR)/name_matching.o $(OBJ_DIR)/namestyles.o $(OBJ_DIR)/bool_function_name_matching.o
 	$(CXX) $^ -o $@ $(ALL_OPTIONS)
 
 run:

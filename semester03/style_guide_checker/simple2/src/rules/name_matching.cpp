@@ -15,7 +15,9 @@ bool Visitor::VisitNamedDecl(clang::NamedDecl *decl)
 {
     using namespace clang;
 
-    if (isa<CXXConstructorDecl>(decl) || isa<CXXDestructorDecl>(decl)) {
+    if (isa<CXXConstructorDecl>(decl)
+            || isa<CXXDestructorDecl>(decl)
+            || isa<CXXConversionDecl>(decl)) {
         return true;
     }
     bool isTypeName = isa<TypeDecl>(decl);
