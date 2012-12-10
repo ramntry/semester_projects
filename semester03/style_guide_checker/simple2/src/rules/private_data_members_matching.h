@@ -8,7 +8,7 @@ namespace private_data_members_matching {
 class Visitor : public BaseVisitor<Visitor>
 {
 public:
-    Visitor(BaseConsumer *consumer = nullptr);
+    Visitor(BaseConsumer *consumer = NULL);
     virtual ~Visitor() {}
 
     virtual bool VisitFieldDecl(clang::FieldDecl *decl);
@@ -21,7 +21,7 @@ private:
 class Consumer : public BaseConsumer
 {
 public:
-    Consumer(clang::CompilerInstance *ci = nullptr
+    Consumer(clang::CompilerInstance *ci = NULL
             , llvm::StringRef filename = llvm::StringRef());
     virtual ~Consumer() {}
 

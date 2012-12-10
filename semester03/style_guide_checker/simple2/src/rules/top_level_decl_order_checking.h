@@ -8,7 +8,7 @@ namespace top_level_decl_order_checking {
 class Consumer : public BaseConsumer
 {
 public:
-    Consumer(clang::CompilerInstance *ci = nullptr
+    Consumer(clang::CompilerInstance *ci = NULL
             , llvm::StringRef filename = llvm::StringRef());
     virtual ~Consumer() {}
 

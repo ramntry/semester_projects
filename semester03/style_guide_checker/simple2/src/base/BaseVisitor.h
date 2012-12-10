@@ -10,7 +10,7 @@ template <typename Self>
 class BaseVisitor : public clang::RecursiveASTVisitor<Self>
 {
 public:
-    BaseVisitor(BaseConsumer *consumer = nullptr) : consumer_(consumer) {}
+    BaseVisitor(BaseConsumer *consumer = NULL) : consumer_(consumer) {}
     virtual ~BaseVisitor() {}
 
     clang::SourceManager &sourceManager() const

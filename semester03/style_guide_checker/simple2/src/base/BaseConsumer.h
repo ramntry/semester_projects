@@ -13,7 +13,7 @@ namespace sgc {  // Style Guide Checker
 class BaseConsumer : public clang::ASTConsumer
 {
 public:
-    BaseConsumer(clang::CompilerInstance *ci = nullptr
+    BaseConsumer(clang::CompilerInstance *ci = NULL
                , llvm::StringRef filename = llvm::StringRef());
     virtual ~BaseConsumer() {}
 
