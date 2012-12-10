@@ -46,6 +46,7 @@ void hello()
 }
 
 struct Error {};
+struct nameError {};
 
 int main()
 {
