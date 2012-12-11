@@ -1,4 +1,5 @@
 #pragma once
+#include <clang/AST/ASTConsumer.h>
 #include <clang/Frontend/FrontendAction.h>
 
 namespace sgc {
@@ -14,11 +15,21 @@ protected:
     }
 
     virtual clang::ASTConsumer *CreateASTConsumer(
-            clang::CompilerInstance &ci, llvm::StringRef filename)
-    {
-        return new Consumer(&ci, filename);
-    }
-
+            clang::CompilerInstance &ci, llvm::StringRef filename);
 };
+
+template <>
+clang::ASTConsumer *BaseAction<void>::CreateASTConsumer(
+        clang::CompilerInstance &ci, llvm::StringRef filename)
+{
+    return new clang::ASTConsumer;
+}
+
+template <typename Consumer>
+clang::ASTConsumer *BaseAction<Consumer>::CreateASTConsumer(
+        clang::CompilerInstance &ci, llvm::StringRef filename)
+{
+    return new Consumer(&ci, filename);
+}
 
 }  // namespace sgc

@@ -12,9 +12,14 @@ public:
     ~ASTUnitWrapper() { delete unit_; }
 
     template <typename Consumer>
-    void run();
+    void runWithConsumer();
+
+    template <typename Action>
+    void runWithAction();
 
 private:
+    void run(clang::ASTFrontendAction *action);
+
     llvm::IntrusiveRefCntPtr<clang::DiagnosticsEngine> diags_;
     clang::CompilerInvocation *invoc_;
     clang::ASTUnit *unit_;
@@ -32,11 +37,23 @@ ASTUnitWrapper::ASTUnitWrapper(int argc, char const **argv)
     unit_ = ASTUnit::LoadFromCompilerInvocation(invoc_, diags_);
 }
 
+void ASTUnitWrapper::run(clang::ASTFrontendAction *action)
+{
+    clang::ASTUnit::LoadFromCompilerInvocationAction(invoc_, diags_, action, unit_);
+}
+
 template <typename Consumer>
-void ASTUnitWrapper::run()
+void ASTUnitWrapper::runWithConsumer()
 {
     BaseAction<Consumer> action;
-    clang::ASTUnit::LoadFromCompilerInvocationAction(invoc_, diags_, &action, unit_);
+    run(&action);
+}
+
+template <typename Action>
+void ASTUnitWrapper::runWithAction()
+{
+    Action action;
+    run(&action);
 }
 
 }  // namespace sgc

@@ -77,7 +77,10 @@ $(OBJ_DIR)/bool_function_name_matching.o: $(RULES_DIR)/bool_function_name_matchi
 $(OBJ_DIR)/namestyles.o: $(SUPP_DIR)/namestyles.cpp $(SUPP_DIR)/namestyles.h
 	$(CXX) $(SUPP_DIR)/namestyles.cpp -o $@ -c $(ALL_OPTIONS)
 
-simple2: $(OBJ_DIR)/simple2.o $(OBJ_DIR)/private_data_members_matching.o $(OBJ_DIR)/top_level_decl_order_checking.o $(OBJ_DIR)/BaseConsumer.o $(OBJ_DIR)/name_matching.o $(OBJ_DIR)/namestyles.o $(OBJ_DIR)/bool_function_name_matching.o
+$(OBJ_DIR)/macro_rules.o: $(RULES_DIR)/macro_rules.cpp $(RULES_DIR)/macro_rules.h
+	$(CXX) $(RULES_DIR)/macro_rules.cpp -o $@ -c $(ALL_OPTIONS)
+
+simple2: $(OBJ_DIR)/simple2.o $(OBJ_DIR)/private_data_members_matching.o $(OBJ_DIR)/top_level_decl_order_checking.o $(OBJ_DIR)/BaseConsumer.o $(OBJ_DIR)/name_matching.o $(OBJ_DIR)/namestyles.o $(OBJ_DIR)/bool_function_name_matching.o $(OBJ_DIR)/macro_rules.o
 	$(CXX) $^ -o $@ $(ALL_OPTIONS)
 
 run:

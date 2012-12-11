@@ -1,3 +1,6 @@
+#define CONSTANT 42
+#define MACRO(n) (n * n)
+
 class A
 {
 public:
@@ -41,6 +44,7 @@ public:
 
 void PrinterAsExampleOfClassWithLongCapitalizedCamelStyleName::print(const char *)
 {
+    int x = MACRO(CONSTANT);
 }
 
 void hello()
