@@ -56,7 +56,7 @@ OBJ_DIR = ./obj
 
 all: simple2
 
-$(OBJ_DIR)/simple2.o: simple2.cpp $(BASE_DIR)/ASTUnitWrapper.h $(BASE_DIR)/BaseAction.h $(RULES_DIR)/private_data_members_matching.h $(RULES_DIR)/top_level_decl_order_checking.h $(RULES_DIR)/name_matching.h
+$(OBJ_DIR)/simple2.o: simple2.cpp $(BASE_DIR)/ASTUnitWrapper.h $(BASE_DIR)/BaseAction.h $(RULES_DIR)/private_data_members_matching.h $(RULES_DIR)/top_level_decl_order_checking.h $(RULES_DIR)/name_matching.h $(RULES_DIR)/position_of_comma_control.h $(RULES_DIR)/macro_rules.h $(RULES_DIR)/line_lengths_control.h
 	$(CXX) simple2.cpp -o $@ -c $(ALL_OPTIONS)
 
 $(OBJ_DIR)/BaseConsumer.o: $(BASE_DIR)/BaseConsumer.cpp $(BASE_DIR)/BaseConsumer.h

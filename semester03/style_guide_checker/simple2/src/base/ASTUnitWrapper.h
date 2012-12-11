@@ -17,6 +17,9 @@ public:
     template <typename Action>
     void runWithAction();
 
+    template <typename Action, typename ArgType>
+    void runWithAction(ArgType arg);
+
 private:
     void run(clang::ASTFrontendAction *action);
 
@@ -53,6 +56,13 @@ template <typename Action>
 void ASTUnitWrapper::runWithAction()
 {
     Action action;
+    run(&action);
+}
+
+template <typename Action, typename ArgType>
+void ASTUnitWrapper::runWithAction(ArgType arg)
+{
+    Action action(arg);
     run(&action);
 }
 

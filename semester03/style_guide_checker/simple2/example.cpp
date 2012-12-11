@@ -36,21 +36,28 @@ private:
    int c;
 };
 
-class PrinterAsExampleOfClassWithLongCapitalizedCamelStyleName
+class PrinterAsExampleOfClassWithLongCapitalizedCamelStyleNameBlahBlahBlah
 {
 public:
     void print(const char *message);
 };
 
-void PrinterAsExampleOfClassWithLongCapitalizedCamelStyleName::print(const char *)
+void PrinterAsExampleOfClassWithLongCapitalizedCamelStyleNameBlahBlahBlah::print(const char *)
 {
-    int x = MACRO(CONSTANT);
+    int x  = MACRO(CONSTANT);
 }
 
 void hello()
 {
-    PrinterAsExampleOfClassWithLongCapitalizedCamelStyleName printer;
+    PrinterAsExampleOfClassWithLongCapitalizedCamelStyleNameBlahBlahBlah printer;
     printer.print("hello");
+}
+
+int function_with_bad_comma_separated_list_of_args(int a, int b
+        , int c, int d,
+        int e, int f)
+{
+    return a + b + c + d + e + f;
 }
 
 struct Error {};

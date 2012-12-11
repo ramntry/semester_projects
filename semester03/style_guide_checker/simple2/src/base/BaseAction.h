@@ -16,6 +16,12 @@ protected:
 
     virtual clang::ASTConsumer *CreateASTConsumer(
             clang::CompilerInstance &ci, llvm::StringRef filename);
+
+    std::string prettyLocation(clang::Token const &token) const
+    {
+        return token.getLocation().printToString(
+                getCompilerInstance().getSourceManager()) + ": ";
+    }
 };
 
 template <>
