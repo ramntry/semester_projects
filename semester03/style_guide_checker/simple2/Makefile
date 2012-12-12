@@ -56,7 +56,7 @@ OBJ_DIR = ./obj
 
 all: simple2
 
-$(OBJ_DIR)/simple2.o: simple2.cpp $(BASE_DIR)/ASTUnitWrapper.h $(BASE_DIR)/BaseAction.h $(RULES_DIR)/private_data_members_matching.h $(RULES_DIR)/top_level_decl_order_checking.h $(RULES_DIR)/name_matching.h $(RULES_DIR)/position_of_comma_control.h $(RULES_DIR)/macro_rules.h $(RULES_DIR)/line_lengths_control.h
+$(OBJ_DIR)/simple2.o: simple2.cpp $(BASE_DIR)/ASTUnitWrapper.h $(BASE_DIR)/BaseAction.h $(RULES_DIR)/private_data_members_matching.h $(RULES_DIR)/top_level_decl_order_checking.h $(RULES_DIR)/name_matching.h $(RULES_DIR)/position_of_comma_control.h $(RULES_DIR)/macro_rules.h $(RULES_DIR)/line_lengths_control.h $(RULES_DIR)/alignment_control.h
 	$(CXX) simple2.cpp -o $@ -c $(ALL_OPTIONS)
 
 $(OBJ_DIR)/BaseConsumer.o: $(BASE_DIR)/BaseConsumer.cpp $(BASE_DIR)/BaseConsumer.h
@@ -80,7 +80,10 @@ $(OBJ_DIR)/namestyles.o: $(SUPP_DIR)/namestyles.cpp $(SUPP_DIR)/namestyles.h
 $(OBJ_DIR)/macro_rules.o: $(RULES_DIR)/macro_rules.cpp $(RULES_DIR)/macro_rules.h
 	$(CXX) $(RULES_DIR)/macro_rules.cpp -o $@ -c $(ALL_OPTIONS)
 
-simple2: $(OBJ_DIR)/simple2.o $(OBJ_DIR)/private_data_members_matching.o $(OBJ_DIR)/top_level_decl_order_checking.o $(OBJ_DIR)/BaseConsumer.o $(OBJ_DIR)/name_matching.o $(OBJ_DIR)/namestyles.o $(OBJ_DIR)/bool_function_name_matching.o $(OBJ_DIR)/macro_rules.o
+$(OBJ_DIR)/alignment_control.o: $(RULES_DIR)/alignment_control.cpp $(RULES_DIR)/alignment_control.h
+	$(CXX) $(RULES_DIR)/alignment_control.cpp -o $@ -c $(ALL_OPTIONS)
+
+simple2: $(OBJ_DIR)/simple2.o $(OBJ_DIR)/private_data_members_matching.o $(OBJ_DIR)/top_level_decl_order_checking.o $(OBJ_DIR)/BaseConsumer.o $(OBJ_DIR)/name_matching.o $(OBJ_DIR)/namestyles.o $(OBJ_DIR)/bool_function_name_matching.o $(OBJ_DIR)/macro_rules.o $(OBJ_DIR)/alignment_control.o
 	$(CXX) $^ -o $@ $(ALL_OPTIONS)
 
 run:

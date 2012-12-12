@@ -6,6 +6,7 @@
 #include "src/rules/top_level_decl_order_checking.h"
 #include "src/rules/position_of_comma_control.h"
 #include "src/rules/line_lengths_control.h"
+#include "src/rules/alignment_control.h"
 
 /*
 #include <clang/Frontend/FrontendActions.h>
@@ -78,5 +79,7 @@ int main(int argc, char const **argv)
     //unit.runWithAction<MyDumpRawTokensAction>();
     unit.runWithAction<position_of_comma_control::Action>();
     unit.runWithAction<line_lengths_control::Action>(70);
+
+    unit.runWithConsumer<alignment_control::Consumer>();
 }
 

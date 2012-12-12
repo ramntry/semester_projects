@@ -6,6 +6,7 @@
 // forward declarations
 namespace clang {
 class SourceManager;
+class Preprocessor;
 }
 
 namespace sgc {  // Style Guide Checker
@@ -18,6 +19,7 @@ public:
     virtual ~BaseConsumer() {}
 
     clang::SourceManager &sourceManager() const { return ci_->getSourceManager(); }
+    clang::Preprocessor &preprocessor() const { return ci_->getPreprocessor(); }
 
     std::string prettyLocation(clang::Decl *decl) const;
     void printFilenameIfItWasChanged(clang::Decl *decl);
