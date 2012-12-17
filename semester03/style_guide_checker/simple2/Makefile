@@ -62,6 +62,9 @@ $(OBJ_DIR)/simple2.o: simple2.cpp $(BASE_DIR)/ASTUnitWrapper.h $(BASE_DIR)/BaseA
 $(OBJ_DIR)/BaseConsumer.o: $(BASE_DIR)/BaseConsumer.cpp $(BASE_DIR)/BaseConsumer.h
 	$(CXX) $(BASE_DIR)/BaseConsumer.cpp -o $@ -c $(ALL_OPTIONS)
 
+$(OBJ_DIR)/BaseAction.o: $(BASE_DIR)/BaseAction.cpp $(BASE_DIR)/BaseAction.h
+	$(CXX) $(BASE_DIR)/BaseAction.cpp -o $@ -c $(ALL_OPTIONS)
+
 $(OBJ_DIR)/private_data_members_matching.o: $(RULES_DIR)/private_data_members_matching.cpp $(RULES_DIR)/private_data_members_matching.h $(BASE_DIR)/BaseConsumer.h $(BASE_DIR)/BaseVisitor.h $(BASE_DIR)/BaseConsumerWithVisitor.h
 	$(CXX) $(RULES_DIR)/private_data_members_matching.cpp -o $@ -c $(ALL_OPTIONS)
 
@@ -80,10 +83,10 @@ $(OBJ_DIR)/namestyles.o: $(SUPP_DIR)/namestyles.cpp $(SUPP_DIR)/namestyles.h
 $(OBJ_DIR)/macro_rules.o: $(RULES_DIR)/macro_rules.cpp $(RULES_DIR)/macro_rules.h
 	$(CXX) $(RULES_DIR)/macro_rules.cpp -o $@ -c $(ALL_OPTIONS)
 
-$(OBJ_DIR)/alignment_control.o: $(RULES_DIR)/alignment_control.cpp $(RULES_DIR)/alignment_control.h
+$(OBJ_DIR)/alignment_control.o: $(RULES_DIR)/alignment_control/ConsumerAndVisitor.cpp $(RULES_DIR)/alignment_control/ConsumerAndVisitor.h
 	$(CXX) $(RULES_DIR)/alignment_control.cpp -o $@ -c $(ALL_OPTIONS)
 
-simple2: $(OBJ_DIR)/simple2.o $(OBJ_DIR)/private_data_members_matching.o $(OBJ_DIR)/top_level_decl_order_checking.o $(OBJ_DIR)/BaseConsumer.o $(OBJ_DIR)/name_matching.o $(OBJ_DIR)/namestyles.o $(OBJ_DIR)/bool_function_name_matching.o $(OBJ_DIR)/macro_rules.o $(OBJ_DIR)/alignment_control.o
+simple2: $(OBJ_DIR)/simple2.o $(OBJ_DIR)/private_data_members_matching.o $(OBJ_DIR)/top_level_decl_order_checking.o $(OBJ_DIR)/BaseConsumer.o $(OBJ_DIR)/name_matching.o $(OBJ_DIR)/namestyles.o $(OBJ_DIR)/bool_function_name_matching.o $(OBJ_DIR)/macro_rules.o $(OBJ_DIR)/alignment_control.o $(OBJ_DIR)/BaseAction.o
 	$(CXX) $^ -o $@ $(ALL_OPTIONS)
 
 run:

@@ -1,5 +1,7 @@
 #pragma once
 #include <clang/AST/ASTConsumer.h>
+#include <clang/Frontend/CompilerInstance.h>
+#include <clang/Lex/Token.h>
 #include <clang/Frontend/FrontendAction.h>
 
 namespace sgc {
@@ -26,10 +28,7 @@ protected:
 
 template <>
 clang::ASTConsumer *BaseAction<void>::CreateASTConsumer(
-        clang::CompilerInstance &ci, llvm::StringRef filename)
-{
-    return new clang::ASTConsumer;
-}
+        clang::CompilerInstance &ci, llvm::StringRef filename);
 
 template <typename Consumer>
 clang::ASTConsumer *BaseAction<Consumer>::CreateASTConsumer(
