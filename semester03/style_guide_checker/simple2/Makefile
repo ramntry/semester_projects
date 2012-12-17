@@ -84,7 +84,7 @@ $(OBJ_DIR)/macro_rules.o: $(RULES_DIR)/macro_rules.cpp $(RULES_DIR)/macro_rules.
 	$(CXX) $(RULES_DIR)/macro_rules.cpp -o $@ -c $(ALL_OPTIONS)
 
 $(OBJ_DIR)/alignment_control.o: $(RULES_DIR)/alignment_control/ConsumerAndVisitor.cpp $(RULES_DIR)/alignment_control/ConsumerAndVisitor.h
-	$(CXX) $(RULES_DIR)/alignment_control.cpp -o $@ -c $(ALL_OPTIONS)
+	$(CXX) $(RULES_DIR)/alignment_control/ConsumerAndVisitor.cpp -o $@ -c $(ALL_OPTIONS)
 
 simple2: $(OBJ_DIR)/simple2.o $(OBJ_DIR)/private_data_members_matching.o $(OBJ_DIR)/top_level_decl_order_checking.o $(OBJ_DIR)/BaseConsumer.o $(OBJ_DIR)/name_matching.o $(OBJ_DIR)/namestyles.o $(OBJ_DIR)/bool_function_name_matching.o $(OBJ_DIR)/macro_rules.o $(OBJ_DIR)/alignment_control.o $(OBJ_DIR)/BaseAction.o
 	$(CXX) $^ -o $@ $(ALL_OPTIONS)
